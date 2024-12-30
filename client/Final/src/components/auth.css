@@ -1,0 +1,97 @@
+/* Container that holds the entire page */
+.auth-container {
+  min-height: 100vh;
+  background-color: #f3f4f6; /* Equivalent to bg-gray-100 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card for the form */
+.auth-card {
+  background-color: white;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 384px;
+}
+
+/* Heading */
+.auth-heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #2d3748; /* Equivalent to text-gray-800 */
+}
+
+/* Form fields container */
+.form-group {
+  margin-bottom: 16px;
+}
+
+/* Input fields */
+.input-field {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #d1d5db; /* Equivalent to border */
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+/* Focused input field */
+.input-field:focus {
+  border-color: #3b82f6; /* Equivalent to focus:ring-2 focus:ring-blue-400 */
+}
+
+/* Button */
+.submit-button {
+  width: 100%;
+  background-color: #3b82f6; /* Equivalent to bg-blue-500 */
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.submit-button:hover {
+  background-color: #2563eb; /* Equivalent to hover:bg-blue-600 */
+}
+
+/* Small text below form */
+.switch-mode {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: #4b5563; /* Equivalent to text-gray-600 */
+}
+
+.switch-mode a {
+  color: #3b82f6; /* Equivalent to text-blue-500 */
+  text-decoration: underline;
+}
+
+/* Button for switching between Login/SignUp */
+.switch-button {
+  background: none;
+  border: none;
+  color: #3b82f6; /* Equivalent to text-blue-500 */
+  text-decoration: underline;
+  cursor: pointer;
+}
+.switch-button:hover {
+  background-color: #dedee1; /* Equivalent to hover:bg-blue-600 */
+}
+
+.error-message {
+  background-color: #fee2e2;
+  border: 1px solid #ef4444;
+  color: #dc2626;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}

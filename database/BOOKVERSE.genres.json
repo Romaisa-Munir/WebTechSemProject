@@ -1,0 +1,102 @@
+[{
+  "_id": {
+    "$oid": "676fe73c84b8af45364fbc66"
+  },
+  "name": "Romance",
+  "description": "A genre that focuses on love stories and romantic relationships.",
+  "books": [
+    {
+      "$oid": "6771129061a0dbc148900b82"
+    },
+    {
+      "$oid": "6771753424a681ef34fc6e31"
+    }
+  ],
+  "members": [
+    {
+      "$oid": "676ffa948e45bff001d25dcf"
+    },
+    {
+      "$oid": "677154989330429b6a914360"
+    }
+  ],
+  "__v": 6
+},
+{
+  "_id": {
+    "$oid": "677151d384b8af45364fbca6"
+  },
+  "name": "Fiction",
+  "description": "A genre that includes imaginative or invented stories, typically not based on real events.",
+  "books": [
+    {
+      "$oid": "67725b08752cfd3b9e1875b0"
+    },
+    {
+      "$oid": "67725c02752cfd3b9e1875b8"
+    }
+  ],
+  "members": [
+    {
+      "$oid": "677154989330429b6a914360"
+    },
+    {
+      "$oid": "677295917ba67c1473346b72"
+    }
+  ],
+  "__v": 4
+},
+{
+  "_id": {
+    "$oid": "677249fe8780c1d600efe4d2"
+  },
+  "name": "Horror",
+  "description": "A genre designed to frighten, scare, or shock readers with themes of suspense, terror, and the supernatural.",
+  "books": [
+    {
+      "$oid": "67725aa9752cfd3b9e1875ac"
+    }
+  ],
+  "members": [
+    {
+      "$oid": "677154989330429b6a914360"
+    }
+  ],
+  "__v": 6
+},
+{
+  "_id": {
+    "$oid": "67724a2a8780c1d600efe4d4"
+  },
+  "name": "Tragedy",
+  "description": "A genre that explores themes of sorrow, loss, and human suffering, often with a somber or emotional tone.",
+  "books": [
+    {
+      "$oid": "67725b77752cfd3b9e1875b4"
+    }
+  ],
+  "members": [
+    {
+      "$oid": "677154989330429b6a914360"
+    }
+  ],
+  "__v": 6
+},
+{
+  "_id": {
+    "$oid": "67724a3a8780c1d600efe4d6"
+  },
+  "name": "Mystery",
+  "description": "A genre centered around solving crimes, uncovering secrets, and unraveling puzzles.",
+  "books": [
+    {
+      "$oid": "677259fb752cfd3b9e1875a7"
+    }
+  ],
+  "members": [
+    {
+      "$oid": "677154989330429b6a914360"
+    }
+  ],
+  "__v": 6
+}]

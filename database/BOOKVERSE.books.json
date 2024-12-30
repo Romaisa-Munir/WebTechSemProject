@@ -1,0 +1,168 @@
+[{
+  "_id": {
+    "$oid": "6771753424a681ef34fc6e31"
+  },
+  "title": "It Ends With Us",
+  "author": "Colleen Hoover",
+  "genreId": {
+    "$oid": "676fe73c84b8af45364fbc66"
+  },
+  "ratings": [
+    {
+      "userId": {
+        "$oid": "677154989330429b6a914360"
+      },
+      "rating": 2,
+      "_id": {
+        "$oid": "6771770924a681ef34fc6e36"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "677295917ba67c1473346b72"
+      },
+      "rating": 1,
+      "_id": {
+        "$oid": "6772d488be5452a944c93db8"
+      }
+    }
+  ],
+  "totalRatings": 3,
+  "ratingCount": 2,
+  "averageRating": 1.5,
+  "addedBy": {
+    "$oid": "676ffa948e45bff001d25dcf"
+  },
+  "coverImage": "http://books.google.com/books/content?id=QL-d0AEACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72kNo1oMtFCKZlGVxXRZKAAcC5P5ClgLnp3GvIzPtGKV8cwBtOLxFa3KvaMT-8RC3XyEzKtvYDqr5fbb5Jqob0-7g3kVWRUJpo8KZtNUEKJhfQKlrCU8y5baVLZ1cO1xt2wLwci&source=gbs_api",
+  "__v": 2,
+  "description": "'It Ends with Us' is a poignant and emotional story about Lily Bloom, a young woman navigating the complexities of love, heartbreak, and difficult decisions. When she meets Ryle Kincaid, a neurosurgeon with a troubled past, their intense relationship begins. However, Lily’s past, especially her first love, Atlas, resurfaces, forcing her to confront the painful reality of her choices and what it means to truly love and protect herself. A powerful exploration of abusive relationships, resilience, and finding strength in difficult circumstances."
+},
+{
+  "_id": {
+    "$oid": "677259fb752cfd3b9e1875a7"
+  },
+  "title": "The Big Sheep",
+  "author": "Robert Kroese",
+  "genreId": {
+    "$oid": "67724a3a8780c1d600efe4d6"
+  },
+  "ratings": [],
+  "totalRatings": 0,
+  "ratingCount": 0,
+  "averageRating": 0,
+  "addedBy": {
+    "$oid": "677154989330429b6a914360"
+  },
+  "coverImage": "http://books.google.com/books/publisher/content?id=2kQzDAAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73bba2uT-kAY-WiXP_g1Ro79GXtHmA9tIeQ6O7qVRa60O9bI0ODUUzkD4UiTqMp1_ARUumqCpJsMcNOhmpPR9GJZhUxbDRhH6BfmQ2dO2DLC9RsLeaG-uwAotVVYpbJ-2kD7lSW&source=gbs_api",
+  "__v": 0,
+  "description": "\"The Big Sheep\" is a gripping and imaginative mystery novel that blends noir with speculative fiction. Set in a futuristic Los Angeles, the story follows private detective Boone, who is hired to find a missing person. As Boone delves deeper into a world of synthetic sheep, high-tech conspiracies, and dark secrets, he is forced to confront not only the case at hand but his own fractured past. With sharp dialogue, a gritty atmosphere, and a twist-filled plot, this novel takes readers on a thrilling ride through a dystopian landscape."
+},
+{
+  "_id": {
+    "$oid": "67725aa9752cfd3b9e1875ac"
+  },
+  "title": "Dracula",
+  "author": "Bram Stoker",
+  "genreId": {
+    "$oid": "677249fe8780c1d600efe4d2"
+  },
+  "ratings": [],
+  "totalRatings": 0,
+  "ratingCount": 0,
+  "averageRating": 0,
+  "addedBy": {
+    "$oid": "677154989330429b6a914360"
+  },
+  "coverImage": "http://books.google.com/books/content?id=-AfkybBr0ooC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70DQrYPxkiRI6aC20Edl8w61-JQbHTQqeUFKm_ziukrC3kInr4Adne3XsAqM753Nb-YbIWkWow092n5RbLaZPOo7G9PzTwOHju56iPkiUNQizVul09fj8f1mEF-fhw7mLfjUeNj&source=gbs_api",
+  "__v": 0,
+  "description": "\"Dracula\" by Bram Stoker is a gothic horror novel that tells the chilling tale of Count Dracula’s attempt to move from Transylvania to England in order to spread the undead curse. The story follows the efforts of a group of people led by Professor Abraham Van Helsing, who must battle Dracula’s supernatural forces. A mix of mystery, suspense, and dark romance, the novel explores themes of fear, sexuality, and the battle between good and evil. It is widely regarded as one of the most influential works in the horror genre."
+},
+{
+  "_id": {
+    "$oid": "67725b08752cfd3b9e1875b0"
+  },
+  "title": "Clockwork Angel",
+  "author": "Cassandra Clare",
+  "genreId": {
+    "$oid": "677151d384b8af45364fbca6"
+  },
+  "ratings": [
+    {
+      "userId": {
+        "$oid": "677295917ba67c1473346b72"
+      },
+      "rating": 4,
+      "_id": {
+        "$oid": "6772ab2c6c1b035b238e83c5"
+      }
+    }
+  ],
+  "totalRatings": 4,
+  "ratingCount": 1,
+  "averageRating": 4,
+  "addedBy": {
+    "$oid": "677154989330429b6a914360"
+  },
+  "coverImage": "http://books.google.com/books/publisher/content?id=RFy8DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE73zn5HOXXwQGpxPAbBHpAS7_YpTnybAFehvkxQn8yaBydlWgJ2czsejPlm43Atw49RwvKvRxoIdPf9farsq0AttCC56UQl3eGPxuB_E0nAJpE978o6TLJDD2oyT2P9Safuocfa5&source=gbs_api",
+  "__v": 1,
+  "description": "\"Clockwork Angel\" by Cassandra Clare is the first book in *The Infernal Devices* series, a prequel to *The Mortal Instruments*. Set in Victorian London, the novel follows Tessa Gray, a young woman with mysterious powers, as she is caught in the world of Shadowhunters — warriors tasked with protecting humanity from demons. With the help of two intriguing and handsome brothers, Will and Jem, Tessa unravels secrets about her past while confronting dark forces and the dangerous clockwork creatures threatening the world. A thrilling blend of historical fiction, fantasy, and romance."
+},
+{
+  "_id": {
+    "$oid": "67725b77752cfd3b9e1875b4"
+  },
+  "title": "Shakespeare's Tragedies",
+  "author": "Dieter Mehl",
+  "genreId": {
+    "$oid": "67724a2a8780c1d600efe4d4"
+  },
+  "ratings": [],
+  "totalRatings": 0,
+  "ratingCount": 0,
+  "averageRating": 0,
+  "addedBy": {
+    "$oid": "677154989330429b6a914360"
+  },
+  "coverImage": "http://books.google.com/books/content?id=EDzOeE_ipZQC&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE72zZh6Wkqr-7fHL5DOFs7vd5gD1KRQhTMq3LuwzvOOwNu5bJEKqpryWMEL6fCPRm8J1YtHQ0AIDeOSOAGDwqTmVoTK5_PlTwT9iQYAN5ykMQsvukmwkI2HlfZszjMIIctqssx3E&source=gbs_api",
+  "__v": 0,
+  "description": "\"Shakespeare's Tragedies\" is a collection of some of William Shakespeare's most powerful and thought-provoking works, including *Hamlet*, *Macbeth*, *Othello*, and *King Lear*. These plays delve into themes of ambition, betrayal, love, and death, exploring the complexities of the human condition. Shakespeare's masterful use of language, his tragic heroes, and the moral dilemmas they face continue to resonate with readers and audiences worldwide. This compilation serves as an essential exploration of the tragic genre in literature."
+},
+{
+  "_id": {
+    "$oid": "67725c02752cfd3b9e1875b8"
+  },
+  "title": "Bridge to Terabithia",
+  "author": "Katherine Paterson",
+  "genreId": {
+    "$oid": "677151d384b8af45364fbca6"
+  },
+  "ratings": [],
+  "totalRatings": 0,
+  "ratingCount": 0,
+  "averageRating": 0,
+  "addedBy": {
+    "$oid": "677154989330429b6a914360"
+  },
+  "coverImage": "http://books.google.com/books/content?id=jEdNOQhEHNcC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE71RVAbRvqvD0jyiPUr8WfbzSPgghkMgCViaANL6ftm91AvrPnjmoK_sfMFMxoqY523z5BotpETxnBtZO6463er5gaXrl30ow3_SSWDMy78JwsxL34-N1oxt8njakVLJsOvbJSYl&source=gbs_api",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67729a5c480a205b39b9e88f"
+  },
+  "title": "Red Queen",
+  "author": "Victoria Aveyard",
+  "genreId": {
+    "$oid": "677151d384b8af45364fbca6"
+  },
+  "ratings": [],
+  "totalRatings": 0,
+  "ratingCount": 0,
+  "averageRating": 0,
+  "addedBy": {
+    "$oid": "677154989330429b6a914360"
+  },
+  "coverImage": "http://books.google.com/books/publisher/content?id=GEFABAAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE71mqkf9q0ue4P7WaBm4HJV6xoVe94l_2aNCbZqmS_x45REqq_k4y7DB0vmV8BDNNpLpb0IHTlUW88dvVeTaiEi31A-QFvjtYbNReTXzlacgsBealoAOO3TzBgQpYQdd0Hch8N-n&source=gbs_api",
+  "description": "<p>The #1 New York Times bestselling series!</p><p>Red Queen, by #1 New York Times bestselling author Victoria Aveyard, is a sweeping tale of power, intrigue, and betrayal, perfect for fans of George R.R. Martin’s Game of Thrones series.</p><p>Mare Barrow's world is divided by blood—those with common, Red blood serve the Silver-blooded elite, who are gifted with superhuman abilities. Mare is a Red, scraping by as a thief in a poor, rural village, until a twist of fate throws her in front of the Silver court. Before the king, princes, and all the nobles, she discovers she has an ability of her own.</p><p>To cover up this impossibility, the king forces her to play the role of a lost Silver princess and betroths her to one of his own sons. As Mare is drawn further into the Silver world, she risks everything and uses her new position to help the Scarlet Guard—a growing Red rebellion—even as her heart tugs her in an impossible direction.</p><p>One wrong move can lead to her death, but in the dangerous game she plays, the only certainty is betrayal.</p><p>Discover more wonders in the world of Red Queen with Broken Throne: A Red Queen Collection, a companion novel with stories from fan favorites and new voices, featuring never-before-seen maps, flags, bonus scenes, journal entries, and much more exclusive content!</p><p>Plus don't miss Realm Breaker! Irresistibly action-packed and full of lethal surprises, this stunning fantasy series from Victoria Aveyard, #1 New York Times bestselling author of the Red Queen series, begins where hope is lost and asks: When the heroes have fallen, who will take up the sword?</p>",
+  "__v": 0
+}]

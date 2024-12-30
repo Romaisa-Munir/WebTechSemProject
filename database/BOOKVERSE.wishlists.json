@@ -1,0 +1,104 @@
+[{
+  "_id": {
+    "$oid": "677148467789e8da41911781"
+  },
+  "userId": {
+    "$oid": "676ffa948e45bff001d25dcf"
+  },
+  "books": [],
+  "__v": 2
+},
+{
+  "_id": {
+    "$oid": "67714db1588d1e9b5a72ee7d"
+  },
+  "userId": {
+    "$oid": "676ff08567058a0072c0dabe"
+  },
+  "books": [
+    {
+      "bookId": {
+        "$oid": "6771129061a0dbc148900b82"
+      },
+      "name": "The Kite Runner",
+      "genre": "Romance",
+      "_id": {
+        "$oid": "67714db1588d1e9b5a72ee7e"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6772630ce76d49e86f5aea35"
+  },
+  "userId": {
+    "$oid": "677185d0fe6542deaf09c5fb"
+  },
+  "books": [
+    {
+      "bookId": {
+        "$oid": "6771753424a681ef34fc6e31"
+      },
+      "name": "It Ends With Us",
+      "genre": "Romance",
+      "_id": {
+        "$oid": "6772630ce76d49e86f5aea36"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6772977d59bd081c5b14653d"
+  },
+  "userId": {
+    "$oid": "677295917ba67c1473346b72"
+  },
+  "books": [
+    {
+      "bookId": {
+        "$oid": "67725b77752cfd3b9e1875b4"
+      },
+      "name": "Shakespeare's Tragedies",
+      "genre": "Tragedy",
+      "_id": {
+        "$oid": "677297e359bd081c5b1465b2"
+      }
+    }
+  ],
+  "__v": 4
+},
+{
+  "_id": {
+    "$oid": "677297bf59bd081c5b146591"
+  },
+  "userId": {
+    "$oid": "677154989330429b6a914360"
+  },
+  "books": [
+    {
+      "bookId": {
+        "$oid": "67725c02752cfd3b9e1875b8"
+      },
+      "name": "Bridge to Terabithia",
+      "genre": "Fiction",
+      "_id": {
+        "$oid": "677297bf59bd081c5b146592"
+      }
+    },
+    {
+      "bookId": {
+        "$oid": "67725b08752cfd3b9e1875b0"
+      },
+      "name": "Clockwork Angel",
+      "genre": "Fiction",
+      "_id": {
+        "$oid": "677297c159bd081c5b146598"
+      }
+    }
+  ],
+  "__v": 1
+}]

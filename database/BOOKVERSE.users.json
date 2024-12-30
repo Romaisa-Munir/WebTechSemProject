@@ -1,0 +1,68 @@
+[{
+  "_id": {
+    "$oid": "676ff08567058a0072c0dabe"
+  },
+  "username": "john",
+  "email": "john@example.com",
+  "password": "$2a$10$ZYuPC6WTp8qy/3M9c7jGO.4nWij201JjREUeRois4fsdo5MCBT/Eq",
+  "joinedGenres": [],
+  "personalLibraries": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "676ffa948e45bff001d25dcf"
+  },
+  "username": "abc",
+  "email": "abc@gmail.com",
+  "password": "$2a$10$RNE1J9xP3FEAW1C4OJPJEe0HIChuyXwWX7OouGl2t.bFg6lSSK./u",
+  "joinedGenres": [
+    {
+      "$oid": "676fe73c84b8af45364fbc66"
+    }
+  ],
+  "personalLibraries": [],
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "677154989330429b6a914360"
+  },
+  "username": "romaisa",
+  "email": "romaisa@gmail.com",
+  "password": "$2a$10$/m6srFBBCn9bOCZ30vP1N.GAnNVkQHPJHZKbm.XGfuVlZjPbvweSG",
+  "joinedGenres": [
+    {
+      "$oid": "677151d384b8af45364fbca6"
+    },
+    {
+      "$oid": "67724a3a8780c1d600efe4d6"
+    },
+    {
+      "$oid": "67724a2a8780c1d600efe4d4"
+    },
+    {
+      "$oid": "677249fe8780c1d600efe4d2"
+    },
+    {
+      "$oid": "676fe73c84b8af45364fbc66"
+    }
+  ],
+  "personalLibraries": [],
+  "__v": 7
+},
+{
+  "_id": {
+    "$oid": "677295917ba67c1473346b72"
+  },
+  "username": "yoyo",
+  "email": "yo@test.com",
+  "password": "$2a$10$9T7uCaEds5rxh.5Sb9gxPuLvwCbF.hfb2JstnfgEHyA179hRmx4F6",
+  "joinedGenres": [
+    {
+      "$oid": "677151d384b8af45364fbca6"
+    }
+  ],
+  "personalLibraries": [],
+  "__v": 1
+}]
