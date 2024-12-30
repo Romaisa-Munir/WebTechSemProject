@@ -40,11 +40,16 @@ router.post('/register', async (req, res) => {
     await user.save();
     console.log('User saved successfully:', user);  // Add this log
 
+//changed this
     const token = jwt.sign(
-        { userId: user._id },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-    );
+    {
+        userId: user._id,
+        username: user.username,
+        email: user.email    // Add this
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }
+);
 
     res.status(201).json({
       message: 'User registered successfully',
@@ -85,10 +90,14 @@ router.post('/login', async (req, res) => {
       }
 
       const token = jwt.sign(
-        { userId: user._id },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-      );
+      {
+          userId: user._id,
+          username: user.username,
+          email: user.email    // Add this
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
 
       res.status(200).json({
         message: 'Login successful',
