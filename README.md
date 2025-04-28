@@ -174,7 +174,6 @@ Semester Project WT/
      ```
      MONGODB_URI=mongodb://localhost:27017/bookverse
      # For a local MongoDB instance, use something like above
-     # For MongoDB Atlas: mongodb+srv://username:password@cluster.mongodb.net/bookverse
      
      JWT_SECRET=your_random_secret_string
      # This can be any string you choose, for example: "bookverse_secret_key_123"
