@@ -420,3 +420,58 @@ body {
     align-items: center;
     gap: 2rem;
 }
+/* Add Book Section */
+.add-book-section {
+  margin-top: 24px;
+  padding: 16px;
+  background-color: #5B51D8;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-book-section h3 {
+  font-size: 1.25rem; /* Equivalent to text-xl */
+  font-weight: 600; /* Equivalent to font-semibold */
+  margin-bottom: 16px; /* Equivalent to mb-4 */
+  color: #ffffff;
+}
+
+.add-book-section .url-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px; /* Equivalent to mb-4 */
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.add-book-section .url-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+.add-book-section .add-book-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-book-section .add-book-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.add-book-section .add-book-button:active {
+  background-color: #1e7e34;
+  transform: translateY(0);
+}
