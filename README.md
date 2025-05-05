@@ -197,7 +197,7 @@ Semester Project WT/
 
 ## Contributors
 
-- Warda Khan (FA22-BCS-100)
+- [Warda Khan](https://github.com/wardakhan0101) (FA22-BCS-100)
 - Romaisa Munir (FA22-BCS-084)
 
 ## Acknowledgements
