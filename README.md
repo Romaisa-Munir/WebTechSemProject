@@ -197,8 +197,8 @@ Semester Project WT/
 
 ## Contributors
 
-- [Warda Khan](https://github.com/wardakhan0101) (FA22-BCS-100)
-- Romaisa Munir (FA22-BCS-084)
+**Romaisa Munir** (@Romaisa-Munir): Client-side implementation, project structure
+**Warda Khan** (@wardakhan0101): Database and server implementation
 
 ## Acknowledgements
 
