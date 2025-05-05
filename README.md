@@ -197,8 +197,8 @@ Semester Project WT/
 
 ## Contributors
 
-**Romaisa Munir** (@Romaisa-Munir): Client-side implementation, project structure
-**Warda Khan** ([@wardakhan0101](https://github.com/wardakhan0101)): Database and server implementation
+- **Romaisa Munir** (@Romaisa-Munir): Client-side implementation, project structure
+- **Warda Khan** ([@wardakhan0101](https://github.com/wardakhan0101)): Database and server implementation
 
 ## Acknowledgements
 
