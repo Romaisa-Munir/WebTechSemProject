@@ -19,7 +19,7 @@ The application includes multiple screens:
 - Registration page for new users
 - Login page with email and password
 - JWT-based authentication system
-  <img width="341" alt="Picture 1" src="https://github.com/user-attachments/assets/b11f46f2-5cc0-4b84-b2e0-d4af415e3b9e" />
+<img width="341" alt="Picture 1" src="https://github.com/user-attachments/assets/3e383874-500c-41cf-b698-8edd16f90ae5" />
 
 ### 2. Dashboard
 - Main interface showing available book clubs (genres)
