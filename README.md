@@ -19,18 +19,22 @@ The application includes multiple screens:
 - Registration page for new users
 - Login page with email and password
 - JWT-based authentication system
+  <img width="341" alt="Picture 1" src="https://github.com/user-attachments/assets/b11f46f2-5cc0-4b84-b2e0-d4af415e3b9e" />
 
 ### 2. Dashboard
 - Main interface showing available book clubs (genres)
 - Navigation bar with links to Book Clubs, Wishlist, and Profile
+  ![Picture 2](https://github.com/user-attachments/assets/51b0378d-de74-4550-ab05-ff3dd966fcbd)
 
 ### 3. Book Clubs (Genres)
 - Display of all available genres
 - Option to view books within each genre or join a club
+<img width="468" alt="Picture 3" src="https://github.com/user-attachments/assets/8f2bcd76-bd9f-4fe9-ade0-4bee1f30dab5" />
 
 ### 4. Book Listings
 - Books displayed by genre with cover images
 - Options to view details or add to wishlist
+![Picture 4](https://github.com/user-attachments/assets/865c3aad-960d-4865-94a2-f080450f2c71)
 
 ### 5. Book Details
 - Comprehensive view of book information including:
@@ -40,20 +44,24 @@ The application includes multiple screens:
   - Description
   - Rating system
   - Add to wishlist functionality
+<img width="276" alt="Picture 5" src="https://github.com/user-attachments/assets/155df69f-e08c-4339-a99e-9b6eaf2dd900" />
 
 ### 6. Rating System
 - Rate books on a scale of 1 to 5 stars
 - View average ratings and number of ratings
 - See individual user ratings
+![Picture 6](https://github.com/user-attachments/assets/a7facfc4-8100-41a3-a17d-b971cde4651d)
 
 ### 7. Wishlist
 - Add books to personal wishlist
 - Remove books from wishlist
 - View all saved books in one place
+<img width="427" alt="Picture 9" src="https://github.com/user-attachments/assets/f9ddfdfe-20eb-4d63-828e-009d5603b75b" />
 
 ### 8. User Profile
 - View personal account information
 - Username and email display
+<img width="468" alt="Picture 11" src="https://github.com/user-attachments/assets/796583f5-0ed6-4d43-8845-f92f073e9617" />
 
 ## Technology Stack
 
