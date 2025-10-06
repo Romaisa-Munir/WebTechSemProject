@@ -129,27 +129,34 @@ The application includes multiple screens:
 ### Project Structure
 
 ```
-Semester Project WT/
-├── client/               # Frontend (React)
-│   └── src/
-│       ├── assets/       # Static files
-│       ├── components/   # React components
-│       │   ├── Auth.jsx
-│       │   ├── BookDetail.jsx
-│       │   ├── Clubs.jsx
-│       │   ├── Navbar.jsx
-│       │   └── Wishlist.jsx
-│       ├── App.jsx       # Main application component
-│       └── main.jsx      # Entry point
+WebTechSemProject/
+├── client/                          # Frontend (React)
+│   └── Final/
+│       ├── src/
+│       │   ├── assets/              # Static files
+│       │   ├── components/          # React components
+│       │   │   ├── Auth.jsx
+│       │   │   ├── BookDetail.jsx
+│       │   │   ├── Clubs.jsx
+│       │   │   ├── Navbar.jsx
+│       │   │   └── Wishlist.jsx
+│       │   ├── App.jsx              # Main application component
+│       │   └── main.jsx             # Entry point
+│       ├── dist/                    # Build output (after npm run build)
+│       ├── package.json
+│       ├── vite.config.js
+│       └── index.html
 │
-├── server/               # Backend (Node.js/Express)
-│   ├── Bookverse/
-│   │   ├── controllers/  # Request handlers
-│   │   ├── models/       # Database models
-│   │   └── routes/       # API routes
-│   └── app.js            # Express application setup
+├── server/                          # Backend (Node.js/Express)
+│   └── Bookverse/
+│       ├── controllers/             # Request handlers
+│       ├── models/                  # Database models
+│       ├── routes/                  # API routes
+│       ├── app.js                   # Express application setup
+│       ├── .env                     # Environment variables
+│       └── package.json
 │
-└── database/             # Database JSON files
+└── database/                        # Database JSON files
     ├── BOOKVERSE.books.json
     ├── BOOKVERSE.genres.json
     ├── BOOKVERSE.users.json
