@@ -48,15 +48,34 @@ pipeline {
             steps {
                 echo 'Importing database data...'
                 sh '''
-                    sleep 10  # Wait for MongoDB to be ready
-                    docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection books --file 
-/tmp/db_files/BOOKVERSE.books.json --jsonArray --drop || true
-                    docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection genres --file 
-/tmp/db_files/BOOKVERSE.genres.json --jsonArray --drop || true
-                    docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection users --file 
-/tmp/db_files/BOOKVERSE.users.json --jsonArray --drop || true
-                    docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection wishlists --file 
-/tmp/db_files/BOOKVERSE.wishlists.json --jsonArray --drop || true
+                    sleep 10
+                    docker exec jenkins-bookverse-mongodb mongoimport \
+                        --db bookverse \
+                        --collection books \
+                        --file /tmp/db_files/BOOKVERSE.books.json \
+                        --jsonArray \
+                        --drop || true
+                    
+                    docker exec jenkins-bookverse-mongodb mongoimport \
+                        --db bookverse \
+                        --collection genres \
+                        --file /tmp/db_files/BOOKVERSE.genres.json \
+                        --jsonArray \
+                        --drop || true
+                    
+                    docker exec jenkins-bookverse-mongodb mongoimport \
+                        --db bookverse \
+                        --collection users \
+                        --file /tmp/db_files/BOOKVERSE.users.json \
+                        --jsonArray \
+                        --drop || true
+                    
+                    docker exec jenkins-bookverse-mongodb mongoimport \
+                        --db bookverse \
+                        --collection wishlists \
+                        --file /tmp/db_files/BOOKVERSE.wishlists.json \
+                        --jsonArray \
+                        --drop || true
                 '''
             }
         }
@@ -66,7 +85,7 @@ pipeline {
                 echo 'Verifying containers are running...'
                 sh '''
                     docker-compose -f ${WORKSPACE}/docker-compose-jenkins.yml ps
-                    echo "Application should be accessible at http://65.2.129.230:8081"
+                    echo "Application accessible at http://65.2.38.228:8081"
                 '''
             }
         }
@@ -75,7 +94,6 @@ pipeline {
     post {
         success {
             echo 'Pipeline completed successfully!'
-            echo 'Application is running at: http://65.2.129.230:8081'
         }
         failure {
             echo 'Pipeline failed. Check logs for details.'
