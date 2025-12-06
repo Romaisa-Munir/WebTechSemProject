@@ -1,152 +1,104 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './auth.css';
+import '../style/Auth.css';
 
-function Auth({ onLogin }) {  // Add onLogin prop
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
+    username: '',
     email: '',
-    password: '',
-    username: ''
+    password: ''
   });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    const endpoint = isLogin
-      ? 'http://localhost:5000/api/user/login'
-      : 'http://localhost:5000/api/user/register';
-
-    console.log('Sending request to:', endpoint);
-    console.log('With data:', formData);
-
     try {
-      const response = await fetch(endpoint, {
+      const url = isLogin
+        ? `${API_URL}/api/user/login`
+        : `${API_URL}/api/user/register`;
+
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
-      console.log('Response from server:', data);
 
       if (response.ok) {
-        console.log('Login/Register successful');
-        console.log('Token received:', data.token);
         localStorage.setItem('token', data.token);
-        console.log('Token stored in localStorage:', localStorage.getItem('token'));
-
-        // Call the onLogin callback to update parent state
-        onLogin(true);
-
-        console.log('Attempting to navigate to /clubs');
-        navigate('/clubs', { replace: true });
-        console.log('Navigation attempted');
+        localStorage.setItem('userId', data.userId);
+        navigate('/clubs');
       } else {
-        console.log('Error response:', data.message);
         setError(data.message || 'Authentication failed');
       }
-    } catch (error) {
-      console.error('Error during authentication:', error);
-      setError('Network error occurred. Please try again.');
+    } catch (err) {
+      setError('Server error. Please try again later.');
+      console.error('Auth error:', err);
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  // Rest of your component remains the same
   return (
     <div className="auth-container">
-      <div className="auth-card">
-        <h2 className="auth-heading">
-          {isLogin ? 'Welcome to BookVerse' : 'Create Account'}
-        </h2>
-
+      <div className="auth-box">
+        <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
         {error && <div className="error-message">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit}>
           {!isLogin && (
             <div className="form-group">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Username
-              </label>
               <input
                 type="text"
                 name="username"
+                placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
-                className="input-field"
                 required
               />
             </div>
           )}
-
           <div className="form-group">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Email
-            </label>
             <input
               type="email"
               name="email"
+              placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className="input-field"
               required
             />
           </div>
-
           <div className="form-group">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Password
-            </label>
             <input
               type="password"
               name="password"
+              placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className="input-field"
               required
             />
           </div>
-
-          <button
-            type="submit"
-            className="submit-button"
-          >
-            {isLogin ? 'Login' : 'Register'}
-          </button>
+          <button type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
         </form>
-
-        <p className="switch-mode">
-          {isLogin ? "Don't have an account? " : "Already have an account? "}
-          <button
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setError('');
-              setFormData({
-                email: '',
-                password: '',
-                username: ''
-              });
-            }}
-            className="switch-button"
-          >
-            {isLogin ? 'Sign up' : 'Login'}
-          </button>
+        <p className="toggle-text">
+          {isLogin ? "Don't have an account? " : 'Already have an account? '}
+          <span onClick={() => setIsLogin(!isLogin)}>
+            {isLogin ? 'Sign Up' : 'Login'}
+          </span>
         </p>
       </div>
     </div>
   );
-}
+};
 
 export default Auth;
