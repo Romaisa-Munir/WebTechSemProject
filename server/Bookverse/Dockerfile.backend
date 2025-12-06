@@ -1,0 +1,20 @@
+# Stage 1: Build the production image
+FROM node:18-alpine AS production
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json to install dependencies
+# We use the existing package.json which has a start script
+COPY package*.json ./
+
+# Install production dependencies
+RUN npm install --only=production
+
+# Copy application source code
+COPY . .
+
+# Expose the port the app runs on (Port 5000 is used in your .env)
+EXPOSE 5000
+
+# Command to run the application using the 'start' script
+CMD ["npm", "start"]
