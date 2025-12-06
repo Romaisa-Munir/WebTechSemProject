@@ -146,7 +146,7 @@ pipeline {
                             -v $(pwd):/tests \
                             -w /tests \
                             --network host \
-                            markhobson/maven-chrome:latest \
+                            markhobson/maven-chrome:jdk-17 \
                             mvn clean test
                         
                         # --- FIX START ---
