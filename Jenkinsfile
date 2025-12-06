@@ -37,10 +37,11 @@ pipeline {
         
         stage('Stop Old Containers') {
             steps {
-                echo 'Stopping any existing Jenkins containers...'
+                echo 'Stopping any existing Jenkins containers and removing volumes...'
                 sh '''
                     cd ${WORKSPACE}
-                    docker-compose -f docker-compose-jenkins.yml down || true
+                    # Added -v to remove volumes and force a fresh data import
+                    docker-compose -f docker-compose-jenkins.yml down -v || true
                 '''
             }
         }

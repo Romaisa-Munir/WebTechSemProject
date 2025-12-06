@@ -48,7 +48,7 @@
   {
     "username": "TestUser",
     "email": "testuser@example.com",
-    "password": "$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy",
+    "password": "$2a$10$ZYuPC6WTp8qy/3M9c7jGO.4nWij201JjREUeRois4fsdo5MCBT/Eq",
     "role": "user",
     "wishlist": [],
     "joinedGenres": [],
