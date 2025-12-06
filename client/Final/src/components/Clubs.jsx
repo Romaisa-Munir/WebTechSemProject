@@ -18,7 +18,7 @@ function Clubs() {
 
     const fetchData = async () => {
         try {
-            const genresResponse = await fetch('http://localhost:5000/api/genres');
+            const genresResponse = await fetch('http://13.201.96.168:5001/api/genres');
             if (!genresResponse.ok) {
                 throw new Error(`HTTP error! status: ${genresResponse.status}`);
             }
@@ -34,7 +34,7 @@ function Clubs() {
 
     const fetchGenreDetails = async (genreName) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/genres/${genreName}`);
+            const response = await fetch(`http://13.201.96.168:5001/api/genres/${genreName}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -54,7 +54,7 @@ function Clubs() {
             const userId = JSON.parse(atob(token.split('.')[1])).userId;
 
             const response = await fetch(
-                `http://localhost:5000/api/genres/${genreName}/join/${userId}`,
+                `http://13.201.96.168:5001/api/genres/${genreName}/join/${userId}`,
                 {
                     method: 'POST',
                     headers: {
@@ -81,7 +81,7 @@ function Clubs() {
             const userId = JSON.parse(atob(token.split('.')[1])).userId;
 
             const response = await fetch(
-                `http://localhost:5000/api/wishlist/${genreName}/books/${bookName}/add-to-wishlist/${userId}`,
+                `http://13.201.96.168:5001/api/wishlist/${genreName}/books/${bookName}/add-to-wishlist/${userId}`,
                 {
                     method: 'POST',
                     headers: {
@@ -116,7 +116,7 @@ function Clubs() {
             const userId = JSON.parse(atob(token.split('.')[1])).userId; // Extract userId from the token
 
             // Construct the request URL
-            const url = `http://localhost:5000/api/genres/${selectedGenre.name}/books/${userId}`; // Add userId to the URL
+            const url = `http://13.201.96.168:5001/api/genres/${selectedGenre.name}/books/${userId}`; // Add userId to the URL
             console.log('Request URL:', url);
 
             // Make the POST request to add a book
