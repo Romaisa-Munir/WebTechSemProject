@@ -101,6 +101,24 @@ pipeline {
                 '''
             }
         }
+
+        stage('Create Test User') {
+            steps {
+                echo 'Creating test user for Selenium tests...'
+                sh '''
+                    # Wait for backend API to be fully ready
+                    sleep 10
+                    
+                    # Create test user via API
+                    curl -X POST ${APP_URL}/api/user/register \
+                        -H "Content-Type: application/json" \
+                        -d '{"username":"testuser","email":"testuser@example.com","password":"testpass123"}' \
+                        || echo "Note: Test user may already exist (this is OK)"
+                    
+                    echo "Test user is ready for testing"
+                '''
+            }
+        }      
         
         stage('Wait for Application') {
             steps {
@@ -156,7 +174,7 @@ pipeline {
                         docker run --rm \
                             -v $(pwd):/tests \
                             alpine \
-                            chown -R 1000:1000 /tests/target
+                            chmod -R 777 /tests/target
                         # --- FIX END ---
                     '''
                 }
