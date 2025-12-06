@@ -16,7 +16,6 @@ pipeline {
                     url: 'https://github.com/Romaisa-Munir/WebTechSemProject.git'
                     
                 script {
-                    // Get committer email for notifications
                     env.GIT_COMMITTER_EMAIL = sh(
                         script: 'git log -1 --pretty=format:"%ae"',
                         returnStdout: true
@@ -37,10 +36,9 @@ pipeline {
         
         stage('Stop Old Containers') {
             steps {
-                echo 'Stopping any existing Jenkins containers and removing volumes...'
+                echo 'Stopping any existing Jenkins containers...'
                 sh '''
                     cd ${WORKSPACE}
-                    
                     docker-compose -f docker-compose-jenkins.yml down || true
                 '''
             }
@@ -101,37 +99,58 @@ pipeline {
                 '''
             }
         }
-
+        
         stage('Wait for Application') {
             steps {
-                    echo 'Waiting for application to be ready...'
-                    sh '''
-                    echo "Waiting 30 seconds for application to start..."
-                    sleep 30
-            
-            # Check if application is accessible
+                echo 'Waiting for application to be ready...'
+                sh '''
+                    echo "Waiting 40 seconds for application to start..."
+                    sleep 40
+                    
                     curl -f ${APP_URL} || echo "Application may still be starting..."
-                 '''
+                '''
             }
         }
+        
         stage('Create Test User') {
             steps {
                 echo 'Creating test user for Selenium tests...'
                 sh '''
-                    # Wait for backend API to be fully ready
-                    sleep 10
+                    echo "Creating test user via API..."
                     
-                    # Create test user via API
-                    curl -X POST ${APP_URL}/api/user/register \
+                    RESPONSE=$(curl -s -w "\\n%{http_code}" -X POST ${APP_URL}/api/user/register \
                         -H "Content-Type: application/json" \
-                        -d '{"username":"testuser","email":"testuser@example.com","password":"testpass123"}' \
-                        || echo "Note: Test user may already exist (this is OK)"
+                        -d '{"username":"testuser","email":"testuser@example.com","password":"testpass123"}')
                     
-                    echo "Test user is ready for testing"
+                    HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+                    BODY=$(echo "$RESPONSE" | sed '$d')
+                    
+                    echo "HTTP Response Code: $HTTP_CODE"
+                    echo "Response Body: $BODY"
+                    
+                    if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "201" ]; then
+                        echo "✅ Test user created successfully"
+                    else
+                        echo "⚠️  Test user creation returned code $HTTP_CODE (may already exist)"
+                    fi
+                    
+                    # Verify login works
+                    echo "Testing login with test user..."
+                    LOGIN_RESPONSE=$(curl -s -X POST ${APP_URL}/api/user/login \
+                        -H "Content-Type: application/json" \
+                        -d '{"email":"testuser@example.com","password":"testpass123"}')
+                    
+                    echo "Login response: $LOGIN_RESPONSE"
+                    
+                    if echo "$LOGIN_RESPONSE" | grep -q "token"; then
+                        echo "✅ Test user login verified successfully!"
+                    else
+                        echo "❌ WARNING: Test user login failed!"
+                        echo "This may cause Selenium tests to fail"
+                    fi
                 '''
             }
-        }      
-        
+        }
         
         stage('Checkout Test Code') {
             steps {
@@ -150,7 +169,6 @@ pipeline {
                     sh '''
                         cd ${WORKSPACE}/selenium-tests
                         
-                        # Update the base URL in config.properties to point to deployed app
                         sed -i "s|base.url=.*|base.url=${APP_URL}|g" src/test/resources/config.properties
                         
                         echo "Updated config.properties:"
@@ -160,22 +178,12 @@ pipeline {
                     sh '''
                         cd ${WORKSPACE}/selenium-tests
                         
-                        # Run tests in Docker
                         docker run --rm \
                             -v $(pwd):/tests \
                             -w /tests \
                             --network host \
-                            markhobson/maven-chrome:jdk-17 \
+                            markhobson/maven-chrome:latest \
                             mvn clean test
-                        
-                        # --- FIX START ---
-                        # Fix permissions: Change ownership of target folder back to current user
-                        # This uses a tiny alpine container to run chown without needing sudo on host
-                        docker run --rm \
-                            -v $(pwd):/tests \
-                            alpine \
-                            chmod -R 777 /tests/target
-                        # --- FIX END ---
                     '''
                 }
             }
