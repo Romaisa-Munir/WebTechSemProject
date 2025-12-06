@@ -141,12 +141,22 @@ pipeline {
                     sh '''
                         cd ${WORKSPACE}/selenium-tests
                         
+                        # Run tests in Docker
                         docker run --rm \
                             -v $(pwd):/tests \
                             -w /tests \
                             --network host \
                             markhobson/maven-chrome:latest \
                             mvn clean test
+                        
+                        # --- FIX START ---
+                        # Fix permissions: Change ownership of target folder back to current user
+                        # This uses a tiny alpine container to run chown without needing sudo on host
+                        docker run --rm \
+                            -v $(pwd):/tests \
+                            alpine \
+                            chown -R 1000:1000 /tests/target
+                        # --- FIX END ---
                     '''
                 }
             }
