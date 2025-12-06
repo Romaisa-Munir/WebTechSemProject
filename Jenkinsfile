@@ -162,17 +162,20 @@ pipeline {
         }
         
         stage('Checkout Test Code') {
-            steps {
-                echo 'Cloning test repository...'
-                sh '''
-                    # Remove old directory (ignore permission errors)
-                    rm -rf ${WORKSPACE}/selenium-tests || true
-                    
-                    # Fresh clone
-                    git clone ${TEST_REPO} ${WORKSPACE}/selenium-tests
-                '''
-            }
-        }
+    steps {
+        echo 'Cloning test repository...'
+        sh '''
+            # Use Docker to forcefully remove old directory
+            if [ -d "${WORKSPACE}/selenium-tests" ]; then
+                echo "Using Docker to clean old test directory..."
+                docker run --rm -v ${WORKSPACE}:/workspace alpine sh -c "rm -rf /workspace/selenium-tests"
+            fi
+            
+            # Fresh clone
+            git clone ${TEST_REPO} ${WORKSPACE}/selenium-tests
+        '''
+    }
+}
         
         stage('Run Selenium Tests') {
             steps {
