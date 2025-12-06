@@ -40,8 +40,8 @@ pipeline {
                 echo 'Stopping any existing Jenkins containers and removing volumes...'
                 sh '''
                     cd ${WORKSPACE}
-                    # Added -v to remove volumes and force a fresh data import
-                    docker-compose -f docker-compose-jenkins.yml down -v || true
+                    
+                    docker-compose -f docker-compose-jenkins.yml down || true
                 '''
             }
         }
