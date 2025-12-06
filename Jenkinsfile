@@ -116,9 +116,17 @@ pipeline {
             steps {
                 echo 'Creating test user for Selenium tests...'
                 sh '''
-                    echo "Creating test user via API..."
+                    echo "Ensuring fresh test user..."
                     
-                    RESPONSE=$(curl -s -w "\\n%{http_code}" -X POST ${APP_URL}/api/user/register \
+                    # Delete test user if exists (via MongoDB)
+                    docker exec jenkins-bookverse-mongodb mongosh bookverse --quiet --eval \
+                        'db.users.deleteOne({email: "testuser@example.com"}); print("Old test user removed");' || true
+                    
+                    sleep 2
+                    
+                    # Create fresh test user
+                    echo "Creating new test user..."
+                    RESPONSE=$(curl -s -w "\\n%{http_code}" -X POST http://13.201.96.168:5001/api/user/register \
                         -H "Content-Type: application/json" \
                         -d '{"username":"testuser","email":"testuser@example.com","password":"testpass123"}')
                     
@@ -131,22 +139,36 @@ pipeline {
                     if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "201" ]; then
                         echo "✅ Test user created successfully"
                     else
-                        echo "⚠️  Test user creation returned code $HTTP_CODE (may already exist)"
+                        echo "⚠️  Response code $HTTP_CODE"
                     fi
                     
                     # Verify login works
-                    echo "Testing login with test user..."
-                    LOGIN_RESPONSE=$(curl -s -X POST ${APP_URL}/api/user/login \
+                    sleep 1
+                    echo "Verifying test user login..."
+                    LOGIN_RESPONSE=$(curl -s -X POST http://13.201.96.168:5001/api/user/login \
                         -H "Content-Type: application/json" \
                         -d '{"email":"testuser@example.com","password":"testpass123"}')
                     
                     echo "Login response: $LOGIN_RESPONSE"
                     
                     if echo "$LOGIN_RESPONSE" | grep -q "token"; then
-                        echo "✅ Test user login verified successfully!"
+                        echo "✅✅✅ Test user login verified successfully! ✅✅✅"
                     else
-                        echo "❌ WARNING: Test user login failed!"
-                        echo "This may cause Selenium tests to fail"
+                        echo "❌ CRITICAL: Test user login failed!"
+                        echo "Tests will fail without valid credentials"
+                        exit 1
+                    fi
+                '''
+            }
+        }
+
+        stage('Cleanup Test Workspace') {
+            steps {
+                echo 'Cleaning up test workspace...'
+                sh '''
+                    if [ -d "${WORKSPACE}/selenium-tests" ]; then
+                        echo "Removing old selenium-tests directory..."
+                        sudo rm -rf ${WORKSPACE}/selenium-tests || rm -rf ${WORKSPACE}/selenium-tests
                     fi
                 '''
             }
