@@ -102,6 +102,18 @@ pipeline {
             }
         }
 
+        stage('Wait for Application') {
+            steps {
+                    echo 'Waiting for application to be ready...'
+                    sh '''
+                    echo "Waiting 30 seconds for application to start..."
+                    sleep 30
+            
+            # Check if application is accessible
+                    curl -f ${APP_URL} || echo "Application may still be starting..."
+                 '''
+            }
+        }
         stage('Create Test User') {
             steps {
                 echo 'Creating test user for Selenium tests...'
@@ -120,18 +132,6 @@ pipeline {
             }
         }      
         
-        stage('Wait for Application') {
-            steps {
-                echo 'Waiting for application to be ready...'
-                sh '''
-                    echo "Waiting 30 seconds for application to start..."
-                    sleep 30
-                    
-                    # Check if application is accessible
-                    curl -f ${APP_URL} || echo "Application may still be starting..."
-                '''
-            }
-        }
         
         stage('Checkout Test Code') {
             steps {
