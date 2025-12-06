@@ -4,8 +4,8 @@ pipeline {
     environment {
         WORKSPACE = "${WORKSPACE}"
         COMPOSE_FILE = "${WORKSPACE}/docker-compose-jenkins.yml"
-        TEST_REPO = "https://github.com/Romaisa-Munir/bookverse-selenium-tests.git"  // UPDATE THIS!
-        APP_URL = "http://13.201.96.168"  // Your deployed application URL
+        TEST_REPO = "https://github.com/Romaisa-Munir/bookverse-selenium-tests.git"
+        APP_URL = "http://13.201.96.168:8081"
     }
     
     stages {
@@ -14,6 +14,15 @@ pipeline {
                 echo 'Cloning application repository from GitHub...'
                 git branch: 'main',
                     url: 'https://github.com/Romaisa-Munir/WebTechSemProject.git'
+                    
+                script {
+                    // Get committer email for notifications
+                    env.GIT_COMMITTER_EMAIL = sh(
+                        script: 'git log -1 --pretty=format:"%ae"',
+                        returnStdout: true
+                    ).trim()
+                    echo "Will send results to: ${env.GIT_COMMITTER_EMAIL}"
+                }
             }
         }
         
@@ -119,7 +128,6 @@ pipeline {
             steps {
                 echo 'Running Selenium tests in Docker container...'
                 script {
-                    // Update config.properties with deployed application URL
                     sh '''
                         cd ${WORKSPACE}/selenium-tests
                         
@@ -130,7 +138,6 @@ pipeline {
                         cat src/test/resources/config.properties
                     '''
                     
-                    // Run tests in Docker container
                     sh '''
                         cd ${WORKSPACE}/selenium-tests
                         
@@ -160,14 +167,51 @@ pipeline {
                 reportFiles: '*.html',
                 reportName: 'Selenium Test Report'
             ])
+            
+            script {
+                emailext (
+                    subject: "Jenkins Build ${currentBuild.result}: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                    body: """
+                        <html>
+                        <body>
+                            <h2>BookVerse Jenkins Pipeline Results</h2>
+                            <p><strong>Build Status:</strong> ${currentBuild.result}</p>
+                            <p><strong>Project:</strong> ${env.JOB_NAME}</p>
+                            <p><strong>Build Number:</strong> ${env.BUILD_NUMBER}</p>
+                            <p><strong>Triggered by:</strong> ${env.GIT_COMMITTER_EMAIL}</p>
+                            
+                            <h3>Test Summary</h3>
+                            <p>Total Tests: 10 Selenium Test Cases</p>
+                            <p><a href="${env.BUILD_URL}Selenium_20Test_20Report/">View Detailed Test Report</a></p>
+                            
+                            <h3>Deployment</h3>
+                            <p>Application: <a href="${APP_URL}">${APP_URL}</a></p>
+                            
+                            <h3>Links</h3>
+                            <ul>
+                                <li><a href="${env.BUILD_URL}">Build Details</a></li>
+                                <li><a href="${env.BUILD_URL}console">Console Output</a></li>
+                            </ul>
+                            
+                            <hr>
+                            <p><em>Automated notification from Jenkins CI/CD Pipeline</em></p>
+                        </body>
+                        </html>
+                    """,
+                    to: "${env.GIT_COMMITTER_EMAIL}",
+                    mimeType: 'text/html',
+                    attachLog: true
+                )
+            }
         }
+        
         success {
             echo '✅ Pipeline completed successfully! All tests passed!'
         }
+        
         failure {
             echo '❌ Pipeline failed. Check logs for details.'
             sh 'docker-compose -f ${WORKSPACE}/docker-compose-jenkins.yml logs || true'
-            sh 'cat ${WORKSPACE}/selenium-tests/target/surefire-reports/*.txt || true'
         }
     }
 }
