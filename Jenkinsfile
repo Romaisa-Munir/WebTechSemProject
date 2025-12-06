@@ -118,13 +118,13 @@ pipeline {
                 sh '''
                     echo "Ensuring fresh test user..."
                     
-                    # Delete test user if exists (via MongoDB)
+                    # Delete test user if exists
                     docker exec jenkins-bookverse-mongodb mongosh bookverse --quiet --eval \
                         'db.users.deleteOne({email: "testuser@example.com"}); print("Old test user removed");' || true
                     
                     sleep 2
                     
-                    # Create fresh test user
+                    # Create fresh test user on port 5001
                     echo "Creating new test user..."
                     RESPONSE=$(curl -s -w "\\n%{http_code}" -X POST http://13.201.96.168:5001/api/user/register \
                         -H "Content-Type: application/json" \
@@ -155,20 +155,7 @@ pipeline {
                         echo "✅✅✅ Test user login verified successfully! ✅✅✅"
                     else
                         echo "❌ CRITICAL: Test user login failed!"
-                        echo "Tests will fail without valid credentials"
                         exit 1
-                    fi
-                '''
-            }
-        }
-
-        stage('Cleanup Test Workspace') {
-            steps {
-                echo 'Cleaning up test workspace...'
-                sh '''
-                    if [ -d "${WORKSPACE}/selenium-tests" ]; then
-                        echo "Removing old selenium-tests directory..."
-                        sudo rm -rf ${WORKSPACE}/selenium-tests || rm -rf ${WORKSPACE}/selenium-tests
                     fi
                 '''
             }
@@ -177,10 +164,13 @@ pipeline {
         stage('Checkout Test Code') {
             steps {
                 echo 'Cloning test repository...'
-                dir('selenium-tests') {
-                    git branch: 'main',
-                        url: "${TEST_REPO}"
-                }
+                sh '''
+                    # Remove old directory (ignore permission errors)
+                    rm -rf ${WORKSPACE}/selenium-tests || true
+                    
+                    # Fresh clone
+                    git clone ${TEST_REPO} ${WORKSPACE}/selenium-tests
+                '''
             }
         }
         
