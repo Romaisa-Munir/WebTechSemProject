@@ -43,8 +43,9 @@ pipeline {
                 echo "BASE_URL is set to:"
                 grep ^BASE_URL test_bookverse.py
                 
-                # Run tests
-                /home/ubuntu/venv/bin/python3 test_bookverse.py || echo "Tests completed with some failures"
+                # Run tests and save results
+                /home/ubuntu/venv/bin/python3 test_bookverse.py > test_results.txt 2>&1 || echo "Tests completed"
+                cat test_results.txt
                 '''
             }
         }
@@ -61,11 +62,42 @@ pipeline {
     }
     
     post {
+        always {
+            script {
+                def testResults = sh(
+                    script: 'cat ${WORKSPACE}/tests/test_results.txt 2>/dev/null || echo "No test results found"',
+                    returnStdout: true
+                ).trim()
+                
+                emailext(
+                    subject: "BookVerse Pipeline - Build #${BUILD_NUMBER} - ${currentBuild.currentResult}",
+                    body: """
+Jenkins Build Report for BookVerse
+
+Build Number: ${BUILD_NUMBER}
+Build Status: ${currentBuild.currentResult}
+Build URL: ${BUILD_URL}
+
+Selenium Test Results:
+${testResults}
+
+Deployment Information:
+- Application URL: http://13.201.96.168
+- Tests executed against Part-I deployment on port 80
+
+This is an automated message from Jenkins CI/CD Pipeline.
+                    """,
+                    to: 'fa22bcs084@cuilahore.edu.pk',
+                    from: 'jenkins@bookverse.com',
+                    replyTo: 'jenkins@bookverse.com'
+                )
+            }
+        }
         success {
-            echo '✓ Pipeline completed successfully!'
+            echo '✓ Pipeline completed successfully! Email notification sent.'
         }
         failure {
-            echo '✗ Pipeline encountered issues'
+            echo '✗ Pipeline encountered issues. Email notification sent.'
         }
     }
 }
