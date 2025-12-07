@@ -110,8 +110,8 @@ COMPOSE_EOF
                 docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection users --file /tmp/db_files/BOOKVERSE.users.json --jsonArray --drop || true
                 docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection wishlists --file /tmp/db_files/BOOKVERSE.wishlists.json --jsonArray --drop || true
                 
-                echo "Waiting for services to stabilize..."
-                sleep 10
+                echo "Waiting for frontend to build and services to stabilize..."
+                sleep 20
                 '''
             }
         }
@@ -132,10 +132,10 @@ COMPOSE_EOF
                 sh '''
                 cd ${WORKSPACE}/tests
                 
-                # Update BASE_URL for Jenkins port
+                # Change BASE_URL from port 80 to port 8081
                 sed -i 's|BASE_URL = "http://13.201.96.168"|BASE_URL = "http://13.201.96.168:8081"|' test_bookverse.py
                 
-                # Run tests using system Python with venv
+                # Run tests using venv
                 /home/ubuntu/venv/bin/python3 test_bookverse.py
                 '''
             }
