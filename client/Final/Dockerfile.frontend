@@ -1,25 +1,36 @@
 # Stage 1: Build the React application
 FROM node:18-alpine AS build
+
 WORKDIR /app
+
+# Accept build argument for API URL
+ARG VITE_API_URL=http://13.201.96.168:5001
+ENV VITE_API_URL=$VITE_API_URL
+
+# Copy package files
 COPY package.json .
 COPY package-lock.json .
+
+# Install dependencies
 RUN npm install
+
+# Copy source code
 COPY . .
-# Build the React app which creates the 'dist' folder [cite: 54, 736]
+
+# Build the React app - VITE_API_URL will be embedded here
 RUN npm run build
 
 # Stage 2: Serve the application using Nginx
 FROM nginx:alpine
-# Copy the custom Nginx configuration from your report [cite: 896]
-# NOTE: This assumes you create a custom Nginx config file locally for the container,
-# which proxies /api/ to the backend container (we'll address this later).
-# For simplicity, we'll use a basic Nginx config that serves static files.
-# The `try_files` rule is critical for React Router [cite: 647, 648]
+
+# Copy built files
 COPY --from=build /app/dist /usr/share/nginx/html
+
+# Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose the standard HTTP port
+# Expose port
 EXPOSE 80
 
-# The default command runs Nginx
+# Run nginx
 CMD ["nginx", "-g", "daemon off;"]
