@@ -3,9 +3,23 @@ pipeline {
     
     environment {
         WORKSPACE = "${WORKSPACE}"
+        GIT_COMMITTER_EMAIL = ''
     }
     
     stages {
+        stage('Get Committer Info') {
+            steps {
+                script {
+                    // Get the email of the person who pushed
+                    env.GIT_COMMITTER_EMAIL = sh(
+                        script: 'git log -1 --pretty=format:"%ae"',
+                        returnStdout: true
+                    ).trim()
+                    echo "Commit pushed by: ${env.GIT_COMMITTER_EMAIL}"
+                }
+            }
+        }
+        
         stage('Verify Part-I Deployment') {
             steps {
                 echo 'Checking Part-I deployment on port 80...'
@@ -69,6 +83,8 @@ pipeline {
                     returnStdout: true
                 ).trim()
                 
+                def committerEmail = env.GIT_COMMITTER_EMAIL ?: 'fa22bcs084@cuilahore.edu.pk'
+                
                 emailext(
                     subject: "BookVerse Pipeline - Build #${BUILD_NUMBER} - ${currentBuild.currentResult}",
                     body: """
@@ -77,6 +93,7 @@ Jenkins Build Report for BookVerse
 Build Number: ${BUILD_NUMBER}
 Build Status: ${currentBuild.currentResult}
 Build URL: ${BUILD_URL}
+Triggered by: ${committerEmail}
 
 Selenium Test Results:
 ${testResults}
@@ -87,10 +104,12 @@ Deployment Information:
 
 This is an automated message from Jenkins CI/CD Pipeline.
                     """,
-                    to: 'fa22bcs084@cuilahore.edu.pk',
+                    to: "${committerEmail}",
                     from: 'jenkins@bookverse.com',
                     replyTo: 'jenkins@bookverse.com'
                 )
+                
+                echo "Email notification sent to: ${committerEmail}"
             }
         }
         success {
