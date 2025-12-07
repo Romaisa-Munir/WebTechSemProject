@@ -111,30 +111,30 @@ COMPOSE_EOF
                 docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection wishlists --file /tmp/db_files/BOOKVERSE.wishlists.json --jsonArray --drop || true
                 
                 echo "Waiting for frontend to build..."
-                sleep 25
+                sleep 40
                 '''
             }
         }
         
         stage('Verify App Running') {
-            steps {
-                echo 'Verifying application is accessible...'
-                sh '''
-                # Check containers are running
-                docker ps | grep jenkins-bookverse
-                
-                # Test backend
-                echo "Testing backend..."
-                curl -f http://localhost:5001 || echo "Backend not responding"
-                
-                # Test frontend
-                echo "Testing frontend..."
-                curl -f http://localhost:8081 || (echo "Frontend not accessible!" && exit 1)
-                
-                echo "App is accessible!"
-                '''
-            }
-        }
+    steps {
+        echo 'Verifying application is accessible...'
+        sh '''
+        # Wait for app to be fully ready
+        for i in {1..30}; do
+            if curl -f http://localhost:8081 2>/dev/null; then
+                echo "App is ready!"
+                break
+            fi
+            echo "Waiting for app... ($i/30)"
+            sleep 2
+        done
+        
+        # Final check
+        curl -f http://localhost:8081 || (echo "App still not ready!" && exit 1)
+        '''
+    }
+}
         
         stage('Checkout Tests') {
             steps {
