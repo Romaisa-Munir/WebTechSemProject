@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+const API_URL = import.meta.env.VITE_API_URL || 'http://13.201.96.168:5001';
 import { useNavigate } from 'react-router-dom';
 
 function Wishlist() {
@@ -16,7 +17,7 @@ function Wishlist() {
             const token = localStorage.getItem('token');
             const userId = JSON.parse(atob(token.split('.')[1])).userId;
 
-            const response = await fetch(`http://13.201.96.168:5001/api/wishlist/${userId}`, {
+            const response = await fetch(`${API_URL}/api/wishlist/${userId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -43,7 +44,7 @@ function Wishlist() {
             const userId = JSON.parse(atob(token.split('.')[1])).userId;
 
             const response = await fetch(
-                `http://13.201.96.168:5001/api/wishlist/${genreName}/books/${bookName}/remove-from-wishlist/${userId}`,
+                `${API_URL}/api/wishlist/${genreName}/books/${bookName}/remove-from-wishlist/${userId}`,
                 {
                     method: 'DELETE',
                     headers: {
