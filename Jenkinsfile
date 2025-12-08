@@ -105,15 +105,10 @@ Test Summary (Build #${env.BUILD_NUMBER})
 ------------------------------------------
 Pushed by: ${pusherEmail}
 
-Selenium Test Results (Port 80):
+Selenium Test Results:
 ---------------------------------------------------
 ${testResultsContent}
 ---------------------------------------------------
-
-Deployment Status:
-- Part-I (Port 80): Used for Testing
-- Part-II (Port 8081): 
-  - URL: http://${publicIp}:8081
 """
                 emailext(
                     to: pusherEmail,
