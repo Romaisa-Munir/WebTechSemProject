@@ -10,7 +10,7 @@ pipeline {
         stage('Get Committer Info') {
             steps {
                 script {
-                    // Get the email of the person who pushed
+                    // This gets the email of the person who authored the last commit
                     env.GIT_COMMITTER_EMAIL = sh(
                         script: 'git log -1 --pretty=format:"%ae"',
                         returnStdout: true
@@ -57,19 +57,41 @@ pipeline {
                 echo "BASE_URL is set to:"
                 grep ^BASE_URL test_bookverse.py
                 
-                # Run tests and save results
+                # Run tests and save results to text file
                 /home/ubuntu/venv/bin/python3 test_bookverse.py > test_results.txt 2>&1 || echo "Tests completed"
+                
+                # Display results in console log as well
                 cat test_results.txt
                 '''
             }
         }
-        
-        stage('Test Summary') {
+
+        // --- Restored Logic: Deploy to Port 8081 ---
+        stage('Deploy to Port 8081') {
             steps {
-                echo 'Tests executed against Part-I deployment on port 80'
+                echo 'Starting application containers on Port 8081...'
                 sh '''
-                echo "Application accessible at http://13.201.96.168"
-                curl -s -o /dev/null -w "HTTP Status: %{http_code}\n" http://13.201.96.168 || echo "Cannot reach deployment"
+                    # Bring up the containers for the 8081 deployment
+                    docker-compose -f ${WORKSPACE}/docker-compose-jenkins.yml up -d --build
+                    
+                    echo 'Importing database data...'
+                    sleep 10  # Wait for MongoDB to be ready
+
+                    # Restore database imports
+                    docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection books --file /tmp/db_files/BOOKVERSE.books.json --jsonArray --drop || true
+                    docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection genres --file /tmp/db_files/BOOKVERSE.genres.json --jsonArray --drop || true
+                    docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection users --file /tmp/db_files/BOOKVERSE.users.json --jsonArray --drop || true
+                    docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection wishlists --file /tmp/db_files/BOOKVERSE.wishlists.json --jsonArray --drop || true
+                '''
+            }
+        }
+
+        stage('Verify Port 8081 Deployment') {
+            steps {
+                echo 'Verifying containers are running...'
+                sh '''
+                    docker-compose -f ${WORKSPACE}/docker-compose-jenkins.yml ps
+                    echo "Application should be accessible at http://65.2.129.230:8081"
                 '''
             }
         }
@@ -78,45 +100,43 @@ pipeline {
     post {
         always {
             script {
-                def testResults = sh(
-                    script: 'cat ${WORKSPACE}/tests/test_results.txt 2>/dev/null || echo "No test results found"',
+                // 1. Get commit author email (Reciever)
+                sh "git config --global --add safe.directory ${env.WORKSPACE}"
+                def committer = sh(
+                    script: "git log -1 --pretty=format:'%ae'",
                     returnStdout: true
                 ).trim()
-                
-                def committerEmail = env.GIT_COMMITTER_EMAIL ?: 'fa22bcs084@cuilahore.edu.pk'
-                
+
+                // 2. Read the actual content of the test results file
+                def testResultsContent = sh(
+                    script: "cat ${WORKSPACE}/tests/test_results.txt 2>/dev/null || echo 'Test results file not found or empty.'",
+                    returnStdout: true
+                ).trim()
+
+                // 3. Construct Email Body
+                def emailBody = """
+Test Summary (Build #${env.BUILD_NUMBER})
+
+Triggered by: ${committer}
+
+Selenium Test Results (Port 80):
+---------------------------------------------------
+${testResultsContent}
+---------------------------------------------------
+
+Deployment Status:
+- Part-I (Port 80): Used for Testing
+- Part-II (Port 8081): Deployed and accessible
+  URL: http://65.2.129.230:8081
+
+"""
+                // 4. Send Email
                 emailext(
-                    subject: "BookVerse Pipeline - Build #${BUILD_NUMBER} - ${currentBuild.currentResult}",
-                    body: """
-Jenkins Build Report for BookVerse
-
-Build Number: ${BUILD_NUMBER}
-Build Status: ${currentBuild.currentResult}
-Build URL: ${BUILD_URL}
-Triggered by: ${committerEmail}
-
-Selenium Test Results:
-${testResults}
-
-Deployment Information:
-- Application URL: http://13.201.96.168
-- Tests executed against Part-I deployment on port 80
-
-This is an automated message from Jenkins CI/CD Pipeline.
-                    """,
-                    to: "${committerEmail}",
-                    from: 'jenkins@bookverse.com',
-                    replyTo: 'jenkins@bookverse.com'
+                    to: committer,
+                    subject: "BookVerse Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
+                    body: emailBody
                 )
-                
-                echo "Email notification sent to: ${committerEmail}"
             }
-        }
-        success {
-            echo '✓ Pipeline completed successfully! Email notification sent.'
-        }
-        failure {
-            echo '✗ Pipeline encountered issues. Email notification sent.'
         }
     }
 }
