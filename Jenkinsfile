@@ -79,7 +79,7 @@ pipeline {
                     docker-compose -f ${WORKSPACE}/docker-compose-jenkins.yml up -d --build
                     
                     echo 'Importing database data...'
-                    sleep 10  # Wait for MongoDB to be ready
+                    sleep 60  # Wait for MongoDB to be ready
 
                     # Restore database imports
                     docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection books --file /tmp/db_files/BOOKVERSE.books.json --jsonArray --drop || true
