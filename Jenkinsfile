@@ -7,10 +7,17 @@ pipeline {
     }
     
     stages {
+        stage('Cleanup Old Deployment') {
+            steps {
+                echo 'Taking down existing deployment on Port 8081...'
+                // This ensures the app is DOWN while tests are running
+                sh 'docker-compose -f ${WORKSPACE}/docker-compose-jenkins.yml down || true'
+            }
+        }
+
         stage('Get Committer Info') {
             steps {
                 script {
-                    // This gets the email of the person who authored the last commit
                     env.GIT_COMMITTER_EMAIL = sh(
                         script: 'git log -1 --pretty=format:"%ae"',
                         returnStdout: true
@@ -57,16 +64,13 @@ pipeline {
                 echo "BASE_URL is set to:"
                 grep ^BASE_URL test_bookverse.py
                 
-                # Run tests and save results to text file
+                # Run tests and save results
                 /home/ubuntu/venv/bin/python3 test_bookverse.py > test_results.txt 2>&1 || echo "Tests completed"
-                
-                # Display results in console log as well
                 cat test_results.txt
                 '''
             }
         }
 
-        // --- Restored Logic: Deploy to Port 8081 ---
         stage('Deploy to Port 8081') {
             steps {
                 echo 'Starting application containers on Port 8081...'
@@ -100,23 +104,19 @@ pipeline {
     post {
         always {
             script {
-                // 1. Get commit author email (Reciever)
                 sh "git config --global --add safe.directory ${env.WORKSPACE}"
                 def committer = sh(
                     script: "git log -1 --pretty=format:'%ae'",
                     returnStdout: true
                 ).trim()
 
-                // 2. Read the actual content of the test results file
                 def testResultsContent = sh(
-                    script: "cat ${WORKSPACE}/tests/test_results.txt 2>/dev/null || echo 'Test results file not found or empty.'",
+                    script: "cat ${WORKSPACE}/tests/test_results.txt 2>/dev/null || echo 'Test results file not found.'",
                     returnStdout: true
                 ).trim()
 
-                // 3. Construct Email Body
                 def emailBody = """
 Test Summary (Build #${env.BUILD_NUMBER})
-
 Triggered by: ${committer}
 
 Selenium Test Results (Port 80):
@@ -126,11 +126,10 @@ ${testResultsContent}
 
 Deployment Status:
 - Part-I (Port 80): Used for Testing
-- Part-II (Port 8081): Deployed and accessible
-  URL: http://65.2.129.230:8081
-
+- Part-II (Port 8081): 
+  - Status: Deployed (if success)
+  - URL: http://65.2.129.230:8081
 """
-                // 4. Send Email
                 emailext(
                     to: committer,
                     subject: "BookVerse Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
