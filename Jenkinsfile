@@ -3,8 +3,6 @@ pipeline {
     
     environment {
         WORKSPACE = "${WORKSPACE}"
-        // We will define the emails here for cleaner usage
-        RECIPIENTS = "romaisa.munir571@gmail.com, qasimalik@gmail.com"
     }
     
     stages {
@@ -47,8 +45,7 @@ pipeline {
                 echo 'Running Selenium tests against Part-I deployment (port 80)...'
                 sh '''
                 cd ${WORKSPACE}/tests
-                
-                # Run tests and save results
+                # Run tests and save results to file
                 /home/ubuntu/venv/bin/python3 test_bookverse.py > test_results.txt 2>&1 || echo "Tests completed"
                 cat test_results.txt
                 '''
@@ -62,7 +59,7 @@ pipeline {
                     docker-compose -f ${WORKSPACE}/docker-compose-jenkins.yml up -d --build
                     
                     echo 'Importing database data...'
-                    sleep 60  # Wait for MongoDB to be ready
+                    sleep 60  # Wait for MongoDB
 
                     docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection books --file /tmp/db_files/BOOKVERSE.books.json --jsonArray --drop || true
                     docker exec jenkins-bookverse-mongodb mongoimport --db bookverse --collection genres --file /tmp/db_files/BOOKVERSE.genres.json --jsonArray --drop || true
@@ -86,19 +83,27 @@ pipeline {
     post {
         always {
             script {
+                // 1. Get Dynamic IP
                 def publicIp = sh(script: "curl -s http://checkip.amazonaws.com", returnStdout: true).trim()
+                
+                // 2. Read test results
                 def testResultsContent = sh(
                     script: "cat ${WORKSPACE}/tests/test_results.txt 2>/dev/null || echo 'Test results file not found.'",
                     returnStdout: true
                 ).trim()
                 
-                // Get the pusher's name just for the report text (not for sending)
-                def pusher = sh(script: "git log -1 --pretty=format:'%ae'", returnStdout: true).trim()
+                // Get the email of the person who pushed
+                def pusherEmail = sh(script: "git log -1 --pretty=format:'%ae'", returnStdout: true).trim()
+                
+                if (pusherEmail.contains("noreply.github.com")) {
+                    echo "Detected private GitHub email. Redirecting to Romaisa."
+                    pusherEmail = "romaisa.munir571@gmail.com"
+                }
 
                 def emailBody = """
 Test Summary (Build #${env.BUILD_NUMBER})
 ------------------------------------------
-Pushed by: ${pusher}
+Pushed by: ${pusherEmail}
 
 Selenium Test Results (Port 80):
 ---------------------------------------------------
@@ -111,7 +116,7 @@ Deployment Status:
   - URL: http://${publicIp}:8081
 """
                 emailext(
-                    to: env.RECIPIENTS, // Sends to BOTH you and Professor
+                    to: pusherEmail,
                     subject: "BookVerse Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
                     body: emailBody
                 )
