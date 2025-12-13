@@ -1,4 +1,4 @@
-# BookVerse   
+ # BookVerse   
 
 BookVerse is a book management application designed to provide users with an interactive platform to discover, rate, and manage their book collections. It offers a personalized experience by allowing users to engage with books across different genres, create their own personal libraries, and participate in book clubs.
 
